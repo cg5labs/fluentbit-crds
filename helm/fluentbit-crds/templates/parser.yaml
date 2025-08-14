@@ -1,0 +1,11 @@
+{{- range .Values.parsers }}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+spec:
+  {{- toYaml .parser | nindent 2 }}
+---
+{{- end }}
+

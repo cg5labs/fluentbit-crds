@@ -1,0 +1,11 @@
+{{- range .Values.outputs }}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Output
+metadata:
+  name: {{ .name }}
+  namespace: {{ .namespace }}
+spec:
+  {{- toYaml .output | nindent 2 }}
+---
+{{- end }}
+

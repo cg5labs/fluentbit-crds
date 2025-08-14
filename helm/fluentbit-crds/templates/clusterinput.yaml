@@ -1,0 +1,10 @@
+{{- range .Values.clusterInputs }}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: {{ .name }}
+spec:
+  {{- toYaml .input | nindent 2 }}
+---
+{{- end }}
+

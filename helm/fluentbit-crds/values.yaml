@@ -1,0 +1,72 @@
+# Cluster-scoped CRDs
+clusterInputs:
+  - name: tail-containers
+    input:
+      tail:
+        Tag: kube.*
+        Path: /var/log/containers/*.log
+        Parser: docker
+        DB: /var/log/flb_kube.db
+        Mem_Buf_Limit: 5MB
+        Skip_Long_Lines: On
+
+clusterFilters:
+  - name: kubernetes-meta
+    filter:
+      kubernetes:
+        Match: kube.*
+        Merge_Log: On
+        Keep_Log: On
+
+clusterOutputs:
+  - name: loki-output
+    output:
+      loki:
+        Match: kube.*
+        Url: http://loki-gateway/loki/api/v1/push
+        Labels: job=fluentbit
+        LogLevel: info
+
+clusterParsers:
+  - name: json-custom
+    parser:
+      format: json
+      time_key: time
+      time_format: "%Y-%m-%dT%H:%M:%S"
+      decode_field_as: "json message"
+
+# Namespaced CRDs
+inputs:
+  - name: tail-app-logs
+    namespace: logging
+    input:
+      tail:
+        Tag: app.*
+        Path: /var/log/app/*.log
+        Parser: json
+        Mem_Buf_Limit: 10MB
+
+filters:
+  - name: enrich
+    namespace: logging
+    filter:
+      modify:
+        Match: app.*
+        Add:
+          key1: value1
+          key2: value2
+
+outputs:
+  - name: stdout
+    namespace: logging
+    output:
+      stdout:
+        Match: app.*
+
+parsers:
+  - name: custom-json
+    namespace: logging
+    parser:
+      format: json
+      time_key: timestamp
+      time_format: "%Y-%m-%d %H:%M:%S"

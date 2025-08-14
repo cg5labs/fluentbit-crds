@@ -1,0 +1,10 @@
+{{- range .Values.clusterOutputs }}
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  name: {{ .name }}
+spec:
+  {{- toYaml .output | nindent 2 }}
+---
+{{- end }}
+

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: fluentbit-crds
+description: A Helm chart for Fluent Bit Operator Cluster-level CRDs
+type: application
+version: 0.1.0
+appVersion: "1.0"
+
