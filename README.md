@@ -1,10 +1,3 @@
-Here is a comprehensive `README.md` for your **Fluent Bit Operator Helm chart**, supporting both **cluster-scoped** and **namespaced CRDs**:
-
----
-
-### 📄 `README.md`
-
-````markdown
 # Fluent Bit Operator CRDs Helm Chart
 
 This Helm chart installs Kubernetes CRDs for the [Fluent Bit Operator](https://github.com/fluent/fluent-operator), including support for:
